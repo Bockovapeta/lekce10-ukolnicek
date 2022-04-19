@@ -31,7 +31,7 @@ zobrazUkoly();
 function nactiUkoly() {
 	let hodnota = localStorage.ukoly;
 
-	if(hodnota === null || hodnota === undefined) {
+	if (hodnota === null || hodnota === undefined) {
 		ukoly = [];
 	} else {
 		ukoly = JSON.parse(hodnota);
@@ -50,8 +50,8 @@ function zobrazUkoly() {
 	seznam.innerHTML = '';
 
 	if (ukoly.length > 0) {
-		for(let i = 0; i < ukoly.length; i++) {
-			let ukol = vytvorPrvekUkolu(i, ukoly[i].popis, ukoly[i].dulezitost);
+		for (let i = 0; i < ukoly.length; i++) {
+			let ukol = vytvorPrvekUkolu(i, ukoly[i].popis, ukoly[i].dulezitost, ukoly[i].datum);
 			seznam.appendChild(ukol);
 		}
 	}
@@ -60,9 +60,9 @@ function zobrazUkoly() {
 
 // funkce, která vytvoří HTML prvky jednoho úkolu
 // jako parametry očekává index úkolu v poli, popis a důležitost úkolu
-function vytvorPrvekUkolu(index, popis, dulezitost) {
+function vytvorPrvekUkolu(index, popis, dulezitost, datum) {
 	let liElement = document.createElement('li');
-	liElement.textContent = `${popis} - ${dulezitost} důležitost`;
+	liElement.textContent = `${popis} - ${dulezitost} důležitost;  udělat do ${datum}`;
 
 	let buttonElement = document.createElement('button');
 	buttonElement.textContent = 'x';
@@ -89,15 +89,23 @@ function odstranUkol() {
 function pridejUkol() {
 	let popis = document.querySelector('#popis').value;
 	let dulezitost = document.querySelector('#dulezitost').value;
+	let datum = document.querySelector('#datum').value;
 
 	if (popis === '') {
 		alert('Prosím, zadej popis úkolu.');
 		return;
 	}
 
+	if (datum === '') {
+		alert('Prosím, zadej datum.');
+		return;
+	}
+
+
 	let ukol = {};
 	ukol.popis = popis;
 	ukol.dulezitost = dulezitost;
+	ukol.datum = datum;
 
 	ukoly.push(ukol);
 
